@@ -1,0 +1,465 @@
+/* =========================================================
+   GEMINI THEME 2.5 - PROXY SIDEBAR
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. GLOBAL VARIABLES & BASICS
+   --------------------------------------------------------- */
+:root {
+    --gemini-bg: #000000;
+    --gemini-surface: #1E1F20;
+    --gemini-surface-hover: #2C2C2E;
+    --gemini-text-primary: #E3E3E3;
+    --gemini-text-secondary: #A8A8A8;
+    --gemini-accent: #4285F4;
+    --gemini-border: #444746;
+    --gemini-radius: 16px;
+}
+
+html,
+body,
+#content,
+#chat,
+#sheld {
+    background-color: var(--gemini-bg) !important;
+    color: var(--gemini-text-primary) !important;
+    font-family: 'Google Sans', 'Roboto', sans-serif !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444746;
+    border-radius: 4px;
+}
+
+/* ---------------------------------------------------------
+   2. HAMBURGER MENU & PROXY SIDEBAR
+   --------------------------------------------------------- */
+
+/* Trigger Button (Top Left) */
+#gemini-menu-trigger {
+    position: fixed;
+    top: 15px;
+    left: 20px;
+    z-index: 2000;
+    font-size: 24px;
+    color: var(--gemini-text-secondary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#gemini-menu-trigger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--gemini-text-primary);
+}
+
+/* Sidebar Container */
+#gemini-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 80px;
+    background-color: var(--gemini-surface);
+    z-index: 1900;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 80px;
+    /* Space for trigger */
+
+    transform: translateX(-100%);
+    /* Hidden by default */
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    /* Scroll if too many icons */
+}
+
+/* Visible State */
+#gemini-sidebar.visible {
+    transform: translateX(0);
+}
+
+/* PROXY ICONS */
+.gemini-proxy-icon {
+    margin: 10px 0 !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    color: var(--gemini-text-secondary) !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    font-size: 1.2rem !important;
+    /* Adjust icon size */
+}
+
+.gemini-proxy-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--gemini-text-primary) !important;
+}
+
+.gemini-proxy-icon.active {
+    color: var(--gemini-accent) !important;
+    background-color: rgba(66, 133, 244, 0.15) !important;
+}
+
+/* HIDE ORIGINAL ICONS (But keep them functional) */
+/* Use specificity to target the ones in top bar or global ones */
+.drawer-icon {
+    position: fixed !important;
+    top: -9999px !important;
+    /* Move far off screen */
+    opacity: 0 !important;
+    pointer-events: none !important;
+    /* We don't use display:none because that might stop some logic */
+}
+
+/* Ensure our proxy icons override this if they happen to have that class (unlikely but safe) */
+#gemini-sidebar .gemini-proxy-icon {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    position: relative !important;
+    top: auto !important;
+}
+
+/* Hide Original Top Bar Container if it exists */
+#top-bar,
+#topbar {
+    display: none !important;
+}
+
+/* ---------------------------------------------------------
+   3. RECENT CHATS (Welcome Screen List)
+   --------------------------------------------------------- */
+h3,
+h4 {
+    color: var(--gemini-text-primary) !important;
+    font-weight: 500 !important;
+}
+
+.recentChat {
+    background-color: var(--gemini-surface) !important;
+    border: 1px solid transparent !important;
+    border-radius: var(--gemini-radius) !important;
+    margin-bottom: 10px !important;
+    padding: 16px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: none !important;
+}
+
+.recentChat:hover {
+    background-color: var(--gemini-surface-hover) !important;
+    border-color: var(--gemini-border) !important;
+    transform: translateY(-1px);
+}
+
+.recent-chat-avatar {
+    border-radius: 50% !important;
+    border: none !important;
+}
+
+.recent-chat-name {
+    color: var(--gemini-text-primary) !important;
+    font-weight: 500 !important;
+}
+
+.recent-chat-timestamp {
+    color: var(--gemini-text-secondary) !important;
+}
+
+/* ---------------------------------------------------------
+   4. DRAWERS & PANELS
+   --------------------------------------------------------- */
+.drawer-content,
+.drawer-content>div {
+    background-color: var(--gemini-surface) !important;
+    color: var(--gemini-text-primary) !important;
+}
+
+.drawer-header,
+.inline-drawer-header {
+    background-color: var(--gemini-bg) !important;
+    border-bottom: 1px solid var(--gemini-border) !important;
+    color: var(--gemini-text-primary) !important;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    background-color: var(--gemini-bg) !important;
+    border: 1px solid var(--gemini-border) !important;
+    border-radius: 8px !important;
+    color: var(--gemini-text-primary) !important;
+    padding: 8px 12px !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--gemini-accent) !important;
+    outline: none !important;
+}
+
+.menu_button,
+.checkbox_label {
+    background-color: var(--gemini-surface-hover) !important;
+    border: none !important;
+    border-radius: 20px !important;
+    color: var(--gemini-text-primary) !important;
+    padding: 8px 16px !important;
+    transition: background 0.2s !important;
+}
+
+.menu_button:hover {
+    background-color: #3C4043 !important;
+}
+
+/* ---------------------------------------------------------
+   5. CHAT AREA & MESSAGES
+   --------------------------------------------------------- */
+/* Input Bar */
+#nonQRFormItems {
+    background: var(--gemini-surface) !important;
+    border-radius: 50px !important;
+    border: 1px solid var(--gemini-border) !important;
+    padding: 4px 20px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+#send_textarea {
+    background: transparent !important;
+    color: var(--gemini-text-primary) !important;
+    border: none !important;
+    resize: none !important;
+}
+
+#send_but {
+    color: var(--gemini-accent) !important;
+}
+
+/* Messages */
+.mes {
+    background: transparent !important;
+    border: none !important;
+    padding: 4px 0 !important;
+}
+
+.mesText {
+    background: var(--gemini-surface) !important;
+    border-radius: 18px !important;
+    padding: 12px 16px !important;
+    color: var(--gemini-text-primary) !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.mes[is_user="true"] .mesText {
+    background: #2C2C2E !important;
+    color: #FFFFFF !important;
+}
+
+/* ---------------------------------------------------------
+   6. WELCOME STATE SPECIFICS
+   --------------------------------------------------------- */
+/* Center "Hi Rawi" */
+body.gemini-welcome-state #sheld::before {
+    content: "Hi Rawi";
+    position: fixed;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    font-weight: 500;
+    background: linear-gradient(90deg, #4285F4, #9B72CB, #D96570, #F2B263, #F4E06D);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* Center Input Bar */
+body.gemini-welcome-state #send_form {
+    position: fixed !important;
+    top: 52% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 680px !important;
+    max-width: 90vw !important;
+    z-index: 100;
+}
+
+/* Hide clutter in welcome state */
+body.gemini-welcome-state .recentChat,
+body.gemini-welcome-state h3 {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease;
+}
+
+/* ---------------------------------------------------------
+   7. POPUPS & MENUS
+   --------------------------------------------------------- */
+.list-group-item {
+    background-color: var(--gemini-surface) !important;
+    border: 1px solid var(--gemini-border) !important;
+    color: var(--gemini-text-primary) !important;
+    padding: 12px 16px !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: var(--gemini-radius) !important;
+    border-top-right-radius: var(--gemini-radius) !important;
+}
+
+.list-group-item:last-child {
+    border-bottom-left-radius: var(--gemini-radius) !important;
+    border-bottom-right-radius: var(--gemini-radius) !important;
+}
+
+.list-group-item:hover {
+    background-color: var(--gemini-surface-hover) !important;
+    color: var(--gemini-accent) !important;
+    border-color: var(--gemini-accent) !important;
+}
+
+.list-group-item .fa-solid,
+.list-group-item .fa-regular,
+.list-group-item .fas,
+.list-group-item .far {
+    color: var(--gemini-text-secondary) !important;
+    margin-right: 10px !important;
+}
+
+.list-group-item:hover .fa-solid,
+.list-group-item:hover .fa-regular,
+.list-group-item:hover .fas,
+.list-group-item:hover .far {
+    color: var(--gemini-accent) !important;
+}
+
+/* ---------------------------------------------------------
+   8. INPUT BAR ICONS
+   --------------------------------------------------------- */
+#options_button,
+#extensionsMenuButton,
+#send_but {
+    background: transparent !important;
+    border: none !important;
+    color: var(--gemini-text-secondary) !important;
+    border-radius: 50% !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    margin: 0 2px !important;
+}
+
+#options_button:hover,
+#extensionsMenuButton:hover,
+#send_but:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--gemini-text-primary) !important;
+}
+
+#send_but {
+    color: var(--gemini-accent) !important;
+}
+
+/* ---------------------------------------------------------
+   9. DROPDOWNS & CONTEXT MENUS
+   --------------------------------------------------------- */
+.dropdown-menu {
+    background-color: var(--gemini-surface) !important;
+    border: 1px solid var(--gemini-border) !important;
+    border-radius: var(--gemini-radius) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    padding: 8px !important;
+}
+
+.dropdown-item {
+    color: var(--gemini-text-primary) !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+}
+
+.dropdown-item:hover {
+    background-color: var(--gemini-surface-hover) !important;
+    color: var(--gemini-text-primary) !important;
+}
+
+/* ---------------------------------------------------------
+   10. HIGH VISIBILITY FIX (Proxy Icons)
+   --------------------------------------------------------- */
+.gemini-proxy-icon {
+    /* Force size and color */
+    width: 44px !important;
+    height: 44px !important;
+    color: var(--gemini-text-primary) !important;
+    /* White */
+    background-color: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 1950 !important;
+}
+
+/* Target the font-awesome icon inside */
+.gemini-proxy-icon i,
+.gemini-proxy-icon svg,
+.gemini-proxy-icon .fa-solid,
+.gemini-proxy-icon .fa-regular,
+.gemini-proxy-icon .fas,
+.gemini-proxy-icon .far {
+    color: #E3E3E3 !important;
+    /* Force Light Gray/White */
+    font-size: 20px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Hover State */
+.gemini-proxy-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #FFFFFF !important;
+}
+
+.gemini-proxy-icon:hover i,
+.gemini-proxy-icon:hover svg {
+    color: #FFFFFF !important;
+}
+
+/* Active State */
+.gemini-proxy-icon.active {
+    color: var(--gemini-accent) !important;
+}
+
+.gemini-proxy-icon.active i {
+    color: var(--gemini-accent) !important;
+}
