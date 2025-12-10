@@ -283,7 +283,7 @@ textarea:focus {
    --------------------------------------------------------- */
 /* Center "Hi Rawi" */
 body.gemini-welcome-state #sheld::before {
-    content: "Hi Rawi";
+    content: "Hi User";
     position: fixed;
     top: 38%;
     left: 50%;
